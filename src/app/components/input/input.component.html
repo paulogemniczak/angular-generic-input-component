@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-1 relative mt-2">
+	<label class="text-sm text-gray-500">{{label}}</label>
+	<input 
+		[type]="type"
+		class="flex-1 p-1 rounded-md border focus:ring-0 bg-gray-100 dark:bg-[#121214] dark:border-[#29292e] dark:text-white py-3 focus:outline-none text-sm outline-none focus:border-purple-500"
+		[placeholder]="placeholder"
+		(blur)="onTouched(); blur.emit()"
+		[ngClass]="{'is-invalid': formControl.invalid && formControl.touched, 'no-padding-icon' : ''}"
+		(input)="onChange($any($event.target).value)"
+		mask="{{maskInput || undefined }}"
+		suffix="{{suffix || undefined}}"
+		[formControl]="formControl"/>
+		<span 
+			class="material-icons text-gray-700 dark:text-gray-300 absolute top-[32px] right-[15px] cursor-pointer h-[20px] w-[20px]"
+			(click)="showContent()"
+			*ngIf="isInputPassword">
+		</span>
+</div>
+<div class="error-message mt-1">
+	<span *ngIf="formControl?.invalid && formControl?.touched">
+		<span *ngIf="formControl?.hasError('required')">
+			Field is required
+		</span>
+		<span *ngIf="formControl?.hasError('email')">
+			Invalid email address
+		</span>
+		<span *ngIf="formControl?.hasError('min')">
+			The value must be greater than {{formControl.getError('min')['min'] - 1}}
+		</span>
+	</span>
+</div>
